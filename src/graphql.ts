@@ -1,6 +1,8 @@
 import { gql } from 'apollo-server';
 import BookStore from './book-store';
 
+// REMPLACE PAR TypeGraphQL
+
 export const typeDefs = gql`
 type Book {
   id: ID

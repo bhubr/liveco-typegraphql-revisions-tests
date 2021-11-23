@@ -5,7 +5,7 @@ describe('test resolver', () => {
   let server: ApolloServer;
 
   beforeAll(async () => {
-    server = createServer();
+    server = await createServer();
   });
 
   describe('queries', () => {
