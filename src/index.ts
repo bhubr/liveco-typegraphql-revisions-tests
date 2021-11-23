@@ -1,9 +1,8 @@
-import { ApolloServer } from 'apollo-server';
-import { typeDefs, resolvers } from './graphql';
-
-const server = new ApolloServer({ typeDefs, resolvers });
+import createServer from "./create-server";
 
 const port = process.env.PORT || 5000;
+
+const server = createServer();
 
 // The `listen` method launches a web server.
 server.listen(port).then(({ url }) => {

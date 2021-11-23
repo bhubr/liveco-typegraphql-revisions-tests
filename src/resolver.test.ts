@@ -1,12 +1,16 @@
 import { ApolloServer, gql } from 'apollo-server';
-import { typeDefs, resolvers } from './graphql';
+import createServer from './create-server';
 
 describe('test resolver', () => {
+  let server: ApolloServer;
+
+  beforeAll(async () => {
+    server = createServer();
+  });
 
   describe('queries', () => {
 
     it('get all books', async () => {
-      const server = new ApolloServer({ typeDefs, resolvers });
 
       const GET_BOOKS = gql`query Query {
         books {
@@ -26,6 +30,41 @@ describe('test resolver', () => {
   });
 
   describe('mutations', () => {
+
+    describe('add book', () => {
+      const ADD_BOOK = gql`mutation Mutation($title: String!, $author: String!) {
+        addBook(title: $title, author: $author) {
+          id
+          title
+          author
+        }
+      }`
+
+      it('fails if required variables are missing', async () => {
+        const result = await server.executeOperation({
+          query: ADD_BOOK,
+          variables: {}
+        });
+
+        expect(result.errors).not.toBeUndefined();
+        expect(result.errors?.length).toBe(2);
+      });
+
+      it('succeeds with required variables', async () => {
+        const result = await server.executeOperation({
+          query: ADD_BOOK,
+          variables: {
+            title: 'Dune',
+            author: 'Frank Herbert'
+          }
+        });
+
+        expect(result.errors).toBeUndefined();
+        expect(result.data?.addBook.title).toBe('Dune');
+        expect(result.data?.addBook.author).toBe('Frank Herbert');
+      });
+
+    });
 
   });
 });
