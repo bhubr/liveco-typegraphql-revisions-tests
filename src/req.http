@@ -1,0 +1,15 @@
+### GET all books
+GET http://localhost:5000/books
+
+
+### POST a new book
+POST http://localhost:5000/books
+Content-Type: application/json
+
+{"title": "Dummy book", "author": "Jane Doe"}
+
+### POST a new book
+POST http://localhost:5000/books
+Content-Type: application/json
+
+{"title": "Dummy book 2", "author": "Jane Doe"}
